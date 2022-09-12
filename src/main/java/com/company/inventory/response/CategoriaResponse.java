@@ -13,4 +13,6 @@ import lombok.Setter;
 public class CategoriaResponse {
 
 	public List<CategoriaEntity>categoriaEntities;
+	
+	//public CategoriaEntity categoriaEntity;
 }

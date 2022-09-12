@@ -1,6 +1,8 @@
 package com.company.inventory.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +32,36 @@ public class CategoriaServiceImpl implements CategoriaService {
 			categoryResponseRest.getCategoriaResponse().setCategoriaEntities(categoriaEntities);
 			categoryResponseRest.setMetadata("Respuesta", "200", "Respuesta Exitosa");
 		} catch (Exception e) {
-			categoryResponseRest.setMetadata("Respuesta", HttpStatus.CONFLICT.toString(), "Fallo la peticion");
+			categoryResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.CONFLICT.value()), "Fallo la peticion");
 			e.printStackTrace();
 			return new ResponseEntity<CategoryResponseRest>(categoryResponseRest,HttpStatus.CONFLICT);
 
+		}
+		return new ResponseEntity<CategoryResponseRest>(categoryResponseRest,HttpStatus.OK);
+	}
+	
+	
+	@Override
+	@Transactional(readOnly = true)
+	public ResponseEntity<CategoryResponseRest>obtenerPorId(Long id){
+		CategoryResponseRest categoryResponseRest= new CategoryResponseRest();
+		List<CategoriaEntity>categoriaEntitie= new ArrayList<>();
+
+		try {
+			Optional<CategoriaEntity> categoriaEntity=categoryDao.findById(id);
+			if (categoriaEntity.isPresent()) {
+				categoriaEntitie.add(categoriaEntity.get());
+				categoryResponseRest.getCategoriaResponse().setCategoriaEntities(categoriaEntitie);
+				categoryResponseRest.setMetadata("Respuesta", "200", "Respuesta Exitosa");
+			}else {
+				categoryResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.NOT_FOUND.value()), "Categoria no encontrada");
+				return new ResponseEntity<CategoryResponseRest>(categoryResponseRest,HttpStatus.NOT_FOUND);
+			}
+			
+		} catch (Exception e) {
+			categoryResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.CONFLICT.value()), "Fallo la peticion");
+			e.printStackTrace();
+			return new ResponseEntity<CategoryResponseRest>(categoryResponseRest,HttpStatus.CONFLICT);
 		}
 		return new ResponseEntity<CategoryResponseRest>(categoryResponseRest,HttpStatus.OK);
 	}
