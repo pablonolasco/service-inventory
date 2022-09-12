@@ -66,4 +66,8 @@ public class CategoriaServiceImpl implements CategoriaService {
 		return new ResponseEntity<CategoryResponseRest>(categoryResponseRest,HttpStatus.OK);
 	}
 
+	
+	public ResponseEntity<CategoryResponseRest>crearCategoria(CategoriaEntity categoriaEntity){
+		return null;
+	}
 }
