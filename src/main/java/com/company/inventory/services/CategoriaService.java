@@ -13,4 +13,6 @@ public interface CategoriaService {
 	ResponseEntity<CategoryResponseRest> obtenerPorId(Long id);
 
 	ResponseEntity<CategoryResponseRest> crearCategoria(CategoriaEntity categoriaEntity);
+
+	ResponseEntity<CategoryResponseRest> actualizar(CategoriaEntity categoriaEntity, Long id);
 }

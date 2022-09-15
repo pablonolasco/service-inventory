@@ -93,4 +93,34 @@ public class CategoriaServiceImpl implements CategoriaService {
 		}
 		return new ResponseEntity<>(categoryResponseRest,HttpStatus.CREATED);
 	}
+	
+	@Override
+	@Transactional
+	public ResponseEntity<CategoryResponseRest>actualizar(CategoriaEntity categoriaEntity, Long id ){
+		
+		CategoryResponseRest categoryResponseRest= new CategoryResponseRest();
+		List<CategoriaEntity>categoriaEntities= new ArrayList<>();
+		try {
+			CategoriaEntity categoria=categoryDao.findById(id).orElse(null);
+			if (categoria != null) {
+				categoria.setDescripcion(categoriaEntity.getDescripcion());
+				categoria.setNombre(categoriaEntity.getNombre());
+				CategoriaEntity categoriaEntityActualizada=categoryDao.save(categoria);
+				categoriaEntities.add(categoriaEntityActualizada);
+				categoryResponseRest.getCategoriaResponse().setCategoriaEntities(categoriaEntities);
+				categoryResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.OK.value()),
+						"Categoria actualizada");
+
+			}else {
+				categoryResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.NOT_FOUND.value()),
+						"Categoria no fue actualizada");
+				return new ResponseEntity<>(categoryResponseRest,HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			categoryResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.CONFLICT.value()),
+					"Fallo la peticion al actualizar la categoria");
+		}
+		
+		return new ResponseEntity<CategoryResponseRest>(categoryResponseRest,HttpStatus.OK);
+	}
 }
