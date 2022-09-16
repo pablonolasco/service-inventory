@@ -3,6 +3,7 @@ package com.company.inventory.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,5 +45,10 @@ public class CategoriaController {
 	public ResponseEntity<?>actualizarCategoria(@RequestBody CategoriaEntity categoriaEntity, @PathVariable Long id){
 		ResponseEntity responseEntity=categoriaService.actualizar(categoriaEntity, id);
 		return responseEntity;
+	}
+	
+	@DeleteMapping("/categoria/{id}")
+	public ResponseEntity<?>eliminar(@PathVariable Long id){
+		
 	}
 }

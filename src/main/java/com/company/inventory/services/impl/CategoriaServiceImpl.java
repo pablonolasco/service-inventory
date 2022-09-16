@@ -123,4 +123,22 @@ public class CategoriaServiceImpl implements CategoriaService {
 		
 		return new ResponseEntity<CategoryResponseRest>(categoryResponseRest,HttpStatus.OK);
 	}
+	
+	@Transactional
+	public ResponseEntity<CategoryResponseRest>desactivarCategoria(Long id){
+		CategoryResponseRest categoryResponseRest= new CategoryResponseRest();
+		try {
+			CategoriaEntity categoriaEntity= categoryDao.findById(id).orElse(null);
+			if (categoriaEntity != null) {
+				
+			}else {
+				categoryResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.NOT_FOUND), "No se encontro la categoria");
+				return new ResponseEntity<CategoryResponseRest>(categoryResponseRest,HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			categoryResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.CONFLICT.value()), "Fallo la peticion");
+		}
+		
+		return new ResponseEntity<CategoryResponseRest>(categoryResponseRest,HttpStatus.OK);
+	}
 }
