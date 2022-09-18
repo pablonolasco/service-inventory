@@ -1,9 +1,11 @@
 package com.company.inventory.services.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.mapping.Array;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -124,13 +126,17 @@ public class CategoriaServiceImpl implements CategoriaService {
 		return new ResponseEntity<CategoryResponseRest>(categoryResponseRest,HttpStatus.OK);
 	}
 	
+	@Override
 	@Transactional
 	public ResponseEntity<CategoryResponseRest>desactivarCategoria(Long id){
 		CategoryResponseRest categoryResponseRest= new CategoryResponseRest();
 		try {
 			CategoriaEntity categoriaEntity= categoryDao.findById(id).orElse(null);
 			if (categoriaEntity != null) {
-				
+				categoryResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.NO_CONTENT.value()), "Se realizo la baja de la categoria");
+				categoryResponseRest.getCategoriaResponse().setCategoriaEntities(Arrays.asList(categoriaEntity));
+				categoryDao.delete(categoriaEntity);
+				//return new ResponseEntity<CategoryResponseRest>(categoryResponseRest,HttpStatus.NO_CONTENT);
 			}else {
 				categoryResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.NOT_FOUND), "No se encontro la categoria");
 				return new ResponseEntity<CategoryResponseRest>(categoryResponseRest,HttpStatus.NOT_FOUND);

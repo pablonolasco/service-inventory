@@ -15,4 +15,6 @@ public interface CategoriaService {
 	ResponseEntity<CategoryResponseRest> crearCategoria(CategoriaEntity categoriaEntity);
 
 	ResponseEntity<CategoryResponseRest> actualizar(CategoriaEntity categoriaEntity, Long id);
+
+	ResponseEntity<CategoryResponseRest> desactivarCategoria(Long id);
 }
