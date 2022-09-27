@@ -12,10 +12,10 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
-@Table(name = "categorias")
 @Getter
 @Setter
+@Entity
+@Table(name = "categorias")
 public class CategoriaEntity implements Serializable{
 
 	/**
@@ -25,6 +25,7 @@ public class CategoriaEntity implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_categoria")
 	private Long id;
 	
 	@Column(length = 50, nullable = false)
