@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +19,7 @@ import com.company.inventory.services.ProductoService;
 import com.company.inventory.util.UtilImagen;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/v1")
 public class ProductoController {
 
 	@Autowired
@@ -37,5 +39,10 @@ public class ProductoController {
 		productoEntity.setCantidad(cantidad);
 		productoEntity.setImagen(UtilImagen.compressZLib(imagen.getBytes()));
 		return productoService.guardarProducto(productoEntity, idCategoria);
+	}
+	
+	@GetMapping("/producto/{id}")
+	public ResponseEntity<?> buscar(@PathVariable Long id){
+		return productoService.obtenerProductoPorId(id);
 	}
 }

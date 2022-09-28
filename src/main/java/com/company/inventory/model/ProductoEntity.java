@@ -3,6 +3,7 @@ package com.company.inventory.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -42,6 +44,8 @@ public class ProductoEntity implements Serializable{
 	@JsonIgnoreProperties({"hibernateLazyInitializer","handler "})
 	private CategoriaEntity categoriaEntity;
 	
-	@Column(name = "imagen", length = 1000)
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	@Column(name = "imagen")
 	private byte [] imagen;
 }
