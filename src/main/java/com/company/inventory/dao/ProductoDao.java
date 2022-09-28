@@ -14,9 +14,9 @@ public interface ProductoDao extends JpaRepository<ProductoEntity, Long> {
 	List<ProductoEntity>findByNombreLike(@Param("nombre") String nombre);
 	
 	
-	List<ProductoEntity>findByNombreContaining(String nombre);
+	List<ProductoEntity>findByNombreContainingIgnoreCase(String nombre);
 	
-	List<ProductoEntity>findByNombreIgnoreCase(String nombre);
+	//List<ProductoEntity>findByNombreIgnoreCase(String nombre);
 
 
 }

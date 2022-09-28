@@ -63,6 +63,7 @@ public class ProductoServiceImpl implements ProductoService {
 		return new ResponseEntity<>(productoResponseRest, HttpStatus.OK);
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	@Transactional
 	public ResponseEntity<ProductoResponseRest> guardarProducto(ProductoEntity producto, Long idCategoria) {
@@ -77,7 +78,7 @@ public class ProductoServiceImpl implements ProductoService {
 			} else {
 				productoResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.NOT_FOUND.value()),
 						"Categoria no encontrada");
-				return new ResponseEntity<ProductoResponseRest>(productoResponseRest, HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>(productoResponseRest, HttpStatus.NOT_FOUND);
 			}
 
 			ProductoEntity productoEntity = productoDao.saveAndFlush(producto);
@@ -89,16 +90,16 @@ public class ProductoServiceImpl implements ProductoService {
 			} else {
 				productoResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.BAD_REQUEST.value()),
 						"Producto no registrado");
-				return new ResponseEntity<ProductoResponseRest>(productoResponseRest, HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(productoResponseRest, HttpStatus.BAD_REQUEST);
 
 			}
 
 		} catch (Exception e) {
 			productoResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()),
 					"Error al guardar el registro");
-			return new ResponseEntity<ProductoResponseRest>(productoResponseRest, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(productoResponseRest, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<ProductoResponseRest>(productoResponseRest, HttpStatus.OK);
+		return new ResponseEntity<>(productoResponseRest, HttpStatus.OK);
 	}
 
 	@Override
@@ -111,6 +112,34 @@ public class ProductoServiceImpl implements ProductoService {
 	@Transactional(readOnly = true)
 	public ResponseEntity<ProductoResponseRest> desactivarProducto(Long id) {
 		return null;
+	}
+
+	@Override
+	public ResponseEntity<ProductoResponseRest> obtenerProductoPorNombre(String nombre) {
+		ProductoResponseRest productoResponseRest= new ProductoResponseRest();
+		List<ProductoEntity> productoEntity= new ArrayList<>();
+		try {
+			productoEntity=productoDao.findByNombreContainingIgnoreCase(nombre);
+			if (!(productoEntity.isEmpty())) {
+					productoResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.OK), "Exito");
+					productoResponseRest.getProductoResponse().setProductoEntities(productoEntity);
+					
+
+			}else {
+				productoResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.NOT_FOUND), "No se encontro el producto");
+				productoResponseRest.getProductoResponse().setProductoEntities(productoEntity);
+				return new ResponseEntity<>(productoResponseRest, HttpStatus.NOT_FOUND);
+			}
+		
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			productoResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()),
+					"Error al consultar el registro");
+			productoResponseRest.getProductoResponse().setProductoEntities(productoEntity);
+			return new ResponseEntity<>(productoResponseRest, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(productoResponseRest,HttpStatus.OK);
 	}
 
 }

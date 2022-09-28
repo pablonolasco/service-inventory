@@ -45,4 +45,9 @@ public class ProductoController {
 	public ResponseEntity<?> buscar(@PathVariable Long id){
 		return productoService.obtenerProductoPorId(id);
 	}
+
+	@GetMapping("/producto")
+	public ResponseEntity<?> buscar(@RequestParam(name = "nombre", required = true) String nombre){
+		return productoService.obtenerProductoPorNombre(nombre);
+	}
 }
