@@ -41,7 +41,7 @@ public class ProductoEntity implements Serializable{
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "categoria_id",referencedColumnName = "id_categoria")
-	//@JsonIgnoreProperties({"hibernateLazyInitializer","handler "})
+	@JsonIgnoreProperties({"hibernateLazyInitializer","handler "})
 	private CategoriaEntity categoriaEntity;
 	
 	@Lob

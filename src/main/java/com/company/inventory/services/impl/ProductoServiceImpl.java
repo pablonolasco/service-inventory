@@ -115,14 +115,21 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public ResponseEntity<ProductoResponseRest> obtenerProductoPorNombre(String nombre) {
 		ProductoResponseRest productoResponseRest= new ProductoResponseRest();
 		List<ProductoEntity> productoEntity= new ArrayList<>();
+		List<ProductoEntity> listaAuxProductoEntity= new ArrayList<>();
 		try {
 			productoEntity=productoDao.findByNombreContainingIgnoreCase(nombre);
 			if (!(productoEntity.isEmpty())) {
 					productoResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.OK), "Exito");
-					productoResponseRest.getProductoResponse().setProductoEntities(productoEntity);
+					productoEntity.stream().forEach(p->{
+						byte [] imageDescomprimir=UtilImagen.decompressZLib(p.getImagen());
+						p.setImagen(imageDescomprimir);
+						listaAuxProductoEntity.add(p);
+					});
+					productoResponseRest.getProductoResponse().setProductoEntities(listaAuxProductoEntity);
 					
 
 			}else {
