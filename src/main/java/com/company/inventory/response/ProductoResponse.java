@@ -9,5 +9,5 @@ import lombok.Data;
 @Data
 public class ProductoResponse {
 
-	public List<ProductoEntity>productoEntities;
+	public List<ProductoEntity>productos;
 }
