@@ -15,6 +15,7 @@ import com.company.inventory.model.CategoriaEntity;
 import com.company.inventory.model.ProductoEntity;
 import com.company.inventory.response.ProductoResponseRest;
 import com.company.inventory.services.ProductoService;
+import com.company.inventory.util.UtilImagen;
 
 @Service
 public class ProductoServiceImpl implements ProductoService {
@@ -46,6 +47,8 @@ public class ProductoServiceImpl implements ProductoService {
 				productoResponseRest.getProductoResponse().setProductoEntities(productoEntities);
 				return new ResponseEntity<>(productoResponseRest, HttpStatus.NOT_FOUND);
 			} else {
+				byte [] imageDescomprimir=UtilImagen.decompressZLib(producto.get().getImagen());
+				producto.get().setImagen(imageDescomprimir);
 				productoEntities.add(producto.get());
 				productoResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.OK),
 						"Exito");
