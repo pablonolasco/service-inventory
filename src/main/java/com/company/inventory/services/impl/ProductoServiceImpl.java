@@ -47,7 +47,7 @@ public class ProductoServiceImpl implements ProductoService {
 					productoEntities.add(p);
 				});
 
-				productoResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.OK), "Exito");
+				productoResponseRest.setMetadata("Respuesta", "200", "Exito");
 				productoResponseRest.getProductoResponse().setProductos(productoEntities);
 
 			} else {
@@ -82,7 +82,7 @@ public class ProductoServiceImpl implements ProductoService {
 				byte[] imageDescomprimir = UtilImagen.decompressZLib(producto.get().getImagen());
 				producto.get().setImagen(imageDescomprimir);
 				productoEntities.add(producto.get());
-				productoResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.OK), "Exito");
+				productoResponseRest.setMetadata("Respuesta", "200", "Exito");
 				productoResponseRest.getProductoResponse().setProductos(productoEntities);
 			}
 		} catch (Exception e) {
