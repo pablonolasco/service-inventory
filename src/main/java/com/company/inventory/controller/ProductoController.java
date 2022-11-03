@@ -57,7 +57,7 @@ public class ProductoController {
 			@RequestParam(name = "nombre", required = true)String nombre,
 			@RequestParam(name = "precio", required = true)BigDecimal precio,
 			@RequestParam(name = "cantidad", required = true)Integer cantidad,
-			@RequestParam(name = "imagen", required = true)MultipartFile imagen,
+			@RequestParam(name = "imagen", required = false)MultipartFile imagen,
 			@RequestParam(name = "idCategoria", required = true)Long idCategoria
 			)throws IOException{
 		ProductoEntity productoEntity= new ProductoEntity();
@@ -65,7 +65,7 @@ public class ProductoController {
 		productoEntity.setNombre(nombre);
 		productoEntity.setPrecio(precio);
 		productoEntity.setCantidad(cantidad);
-		productoEntity.setImagen(UtilImagen.compressZLib(imagen.getBytes()));
+		productoEntity.setImagen(imagen!=null? UtilImagen.compressZLib(imagen.getBytes()):null);
 		return productoService.actualizarProducto(productoEntity, idCategoria);
 	}
 	

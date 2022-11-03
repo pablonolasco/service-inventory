@@ -150,9 +150,13 @@ public class ProductoServiceImpl implements ProductoService {
 
 			if (productoEntity.isPresent()) {
 
-				byte[] comprimir = UtilImagen.compressZLib(producto.getImagen());
+				
+				
 				productoEntity.get().setCantidad(producto.getCantidad());
-				productoEntity.get().setImagen(comprimir);
+				if (producto.getImagen()!=null) {
+					productoEntity.get().setImagen(producto.getImagen());	
+				}
+							
 				productoEntity.get().setNombre(producto.getNombre());
 				productoEntity.get().setPrecio(producto.getPrecio());
 				productoEntity.get().setCategoriaEntity(categoriaEntity.get());
