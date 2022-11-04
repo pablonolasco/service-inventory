@@ -134,6 +134,7 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 
 	@Override
+	@Transactional
 	public ResponseEntity<ProductoResponseRest> actualizarProducto(ProductoEntity producto, Long id) {
 		ProductoResponseRest productoResponseRest = new ProductoResponseRest();
 		List<ProductoEntity> productoEntities = new ArrayList<>();
