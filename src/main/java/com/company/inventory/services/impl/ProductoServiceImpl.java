@@ -134,6 +134,7 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 
 	@Override
+	@Transactional
 	public ResponseEntity<ProductoResponseRest> actualizarProducto(ProductoEntity producto, Long id) {
 		ProductoResponseRest productoResponseRest = new ProductoResponseRest();
 		List<ProductoEntity> productoEntities = new ArrayList<>();
@@ -225,7 +226,7 @@ public class ProductoServiceImpl implements ProductoService {
 		try {
 			productoEntity = productoDao.findByNombreContainingIgnoreCase(nombre);
 			if (!(productoEntity.isEmpty())) {
-				productoResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.OK), "Exito");
+				productoResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.OK.value()), "Exito");
 				productoEntity.stream().forEach(p -> {
 					byte[] imageDescomprimir = UtilImagen.decompressZLib(p.getImagen());
 					p.setImagen(imageDescomprimir);
@@ -234,10 +235,10 @@ public class ProductoServiceImpl implements ProductoService {
 				productoResponseRest.getProductoResponse().setProductos(listaAuxProductoEntity);
 
 			} else {
-				productoResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.NOT_FOUND),
+				productoResponseRest.setMetadata("Respuesta", String.valueOf(HttpStatus.NOT_FOUND.value()),
 						"No se encontro el producto");
 				productoResponseRest.getProductoResponse().setProductos(productoEntity);
-				return new ResponseEntity<>(productoResponseRest, HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>(productoResponseRest, HttpStatus.OK);
 			}
 
 		} catch (Exception e) {
