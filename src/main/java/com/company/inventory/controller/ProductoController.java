@@ -18,69 +18,65 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.company.inventory.model.ProductoEntity;
-import com.company.inventory.response.ProductoResponseRest;
 import com.company.inventory.services.ProductoService;
 import com.company.inventory.util.UtilImagen;
 
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin(methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@CrossOrigin(methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 public class ProductoController {
 
 	@Autowired
 	private ProductoService productoService;
-	
+
 	@GetMapping("/productos")
-	public ResponseEntity<?>obtener(){
+	public ResponseEntity<?> obtener() {
 		return productoService.obtenerProductos();
 	}
-	
+
 	@PostMapping("/producto")
-	public ResponseEntity<?>crear(
-			@RequestParam(name = "nombre", required = true)String nombre,
-			@RequestParam(name = "precio", required = true)BigDecimal precio,
-			@RequestParam(name = "cantidad", required = true)Integer cantidad,
-			@RequestParam(name = "imagen", required = true)MultipartFile imagen,
-			@RequestParam(name = "idCategoria", required = true)Long idCategoria
-			) throws IOException{
-		ProductoEntity productoEntity= new ProductoEntity();
+	public ResponseEntity<?> crear(@RequestParam(name = "nombre", required = true) String nombre,
+			@RequestParam(name = "precio", required = true) BigDecimal precio,
+			@RequestParam(name = "cantidad", required = true) Integer cantidad,
+			@RequestParam(name = "imagen", required = true) MultipartFile imagen,
+			@RequestParam(name = "idCategoria", required = true) Long idCategoria) throws IOException {
+		ProductoEntity productoEntity = new ProductoEntity();
 		productoEntity.setNombre(nombre);
 		productoEntity.setPrecio(precio);
 		productoEntity.setCantidad(cantidad);
 		productoEntity.setImagen(UtilImagen.compressZLib(imagen.getBytes()));
 		return productoService.guardarProducto(productoEntity, idCategoria);
 	}
-	
+
 	@PutMapping("/producto/{id}")
-	public ResponseEntity<?>actualizar(
-			@PathVariable(name = "id", required = true)Long id,
-			@RequestParam(name = "nombre", required = true)String nombre,
-			@RequestParam(name = "precio", required = true)BigDecimal precio,
-			@RequestParam(name = "cantidad", required = true)Integer cantidad,
-			@RequestParam(name = "imagen", required = false)MultipartFile imagen,
-			@RequestParam(name = "idCategoria", required = true)Long idCategoria
-			)throws IOException{
-		ProductoEntity productoEntity= new ProductoEntity();
+	public ResponseEntity<?> actualizar(@PathVariable(name = "id", required = true) Long id,
+			@RequestParam(name = "nombre", required = true) String nombre,
+			@RequestParam(name = "precio", required = true) BigDecimal precio,
+			@RequestParam(name = "cantidad", required = true) Integer cantidad,
+			@RequestParam(name = "imagen", required = false) MultipartFile imagen,
+			@RequestParam(name = "idCategoria", required = true) Long idCategoria) throws IOException {
+		ProductoEntity productoEntity = new ProductoEntity();
 		productoEntity.setId(id);
 		productoEntity.setNombre(nombre);
 		productoEntity.setPrecio(precio);
 		productoEntity.setCantidad(cantidad);
-		productoEntity.setImagen(imagen!=null? UtilImagen.compressZLib(imagen.getBytes()):null);
+		productoEntity.setImagen(imagen != null ? UtilImagen.compressZLib(imagen.getBytes()) : null);
 		return productoService.actualizarProducto(productoEntity, idCategoria);
 	}
-	
+
 	@GetMapping("/producto/{id}")
-	public ResponseEntity<?> buscar(@PathVariable Long id){
+	public ResponseEntity<?> buscar(@PathVariable Long id) {
 		return productoService.obtenerProductoPorId(id);
 	}
 
 	@GetMapping("/producto")
-	public ResponseEntity<?> buscar(@RequestParam(name = "nombre", required = true) String nombre){
+	public ResponseEntity<?> buscar(@RequestParam(name = "nombre", required = true) String nombre) {
 		return productoService.obtenerProductoPorNombre(nombre);
 	}
-	
+
 	@DeleteMapping("/producto/{id}")
-	public ResponseEntity<?> desactivar(@PathVariable Long id){
+	public ResponseEntity<?> desactivar(@PathVariable Long id) {
 		return productoService.desactivarProducto(id);
 	}
+
 }
