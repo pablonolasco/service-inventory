@@ -23,7 +23,7 @@ public class CategoriaExcelExporter {
 	
 	private List<CategoriaEntity>categoriaEntities;
 	
-	private CategoriaExcelExporter (List<CategoriaEntity>entities) {
+	public CategoriaExcelExporter (List<CategoriaEntity>entities) {
 		this.categoriaEntities=entities;
 		this.workbook= new XSSFWorkbook();
 	}
@@ -79,7 +79,7 @@ public class CategoriaExcelExporter {
 		});
 	}
 	
-	private void exportar(HttpServletResponse response) throws IOException{
+	public void exportar(HttpServletResponse response) throws IOException{
 		writeHeaderLine();
 		writeHeaderLine();
 		
