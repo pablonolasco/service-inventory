@@ -66,8 +66,8 @@ public class CategoriaExcelExporter {
 		font.setFontHeight(14);
 		
 		style.setFont(font);
-		
-		this.categoriaEntities.stream().forEach(categoria->{
+		int rowCount=1;
+		/*this.categoriaEntities.stream().forEach(categoria->{
 			int rowCount=1;
 
 			Row row= sheet.createRow(rowCount==1?rowCount++:rowCount++);
@@ -76,12 +76,20 @@ public class CategoriaExcelExporter {
 			createCellRow(row, columnCount++, categoria.getNombre(), style);
 			createCellRow(row, columnCount++, categoria.getDescripcion(), style);
 			
-		});
+		});*/
+		
+		for (CategoriaEntity categoria : categoriaEntities) {
+			Row row= sheet.createRow(rowCount++);
+			int columnCount=0;
+			createCellRow(row, columnCount++, String.valueOf(categoria.getId()), style);
+			createCellRow(row, columnCount++, categoria.getNombre(), style);
+			createCellRow(row, columnCount++, categoria.getDescripcion(), style);
+		}
 	}
 	
 	public void exportar(HttpServletResponse response) throws IOException{
 		writeHeaderLine();
-		writeHeaderLine();
+		writeDataLines();
 		
 		ServletOutputStream outputStream= response.getOutputStream();
 		workbook.write(outputStream);

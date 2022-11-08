@@ -67,7 +67,7 @@ public class CategoriaController {
 		response.setContentType("application/octet-stream");
 
 		String headerKey = "Content-Disposition";
-		String headerValue = "attachment; filename=result_category";
+		String headerValue = "attachment; filename=result_category.xlsx";
 
 		response.setHeader(headerKey, headerValue);
 
