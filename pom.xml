@@ -15,6 +15,9 @@
 	<description>service inventory</description>
 	<properties>
 		<java.version>1.8</java.version>
+		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+		<sonar.core.jacoco.reportPath>${project.base}/../target/jacoco.exec</sonar.core.jacoco.reportPath>
+		<sonar.languaje>java</sonar.languaje>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -91,6 +94,26 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.5</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+
+				</executions>
+				<configuration>
+					<destFile>${sonar.jacoco.reportPath}</destFile>
 				</configuration>
 			</plugin>
 		</plugins>
