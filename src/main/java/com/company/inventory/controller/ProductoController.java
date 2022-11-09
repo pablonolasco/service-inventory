@@ -3,6 +3,8 @@ package com.company.inventory.controller;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.company.inventory.model.ProductoEntity;
+import com.company.inventory.response.ProductoResponseRest;
 import com.company.inventory.services.ProductoService;
+import com.company.inventory.util.ProductoExcelExporter;
 import com.company.inventory.util.UtilImagen;
 
 @RestController
@@ -77,6 +81,22 @@ public class ProductoController {
 	@DeleteMapping("/producto/{id}")
 	public ResponseEntity<?> desactivar(@PathVariable Long id) {
 		return productoService.desactivarProducto(id);
+	}
+	
+	@GetMapping("/producto/export/documento-excel")
+	public void descargarExcel(HttpServletResponse response) throws IOException {
+		response.setContentType("application/octet-stream");
+
+		String headerKey = "Content-Disposition";
+		String headerValue = "attachment; filename=result_producto.xlsx";
+
+		response.setHeader(headerKey, headerValue);
+
+		ResponseEntity<ProductoResponseRest>productos=productoService.obtenerProductos();
+		
+		ProductoExcelExporter exporter= new ProductoExcelExporter(productos.getBody().getProductoResponse().productos);
+		
+		exporter.exportar(response);
 	}
 
 }
