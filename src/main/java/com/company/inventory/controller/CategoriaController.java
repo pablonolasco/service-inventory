@@ -45,7 +45,7 @@ public class CategoriaController {
 	}
 
 	@PostMapping("/categoria")
-	public ResponseEntity<?> crearCategoria(@RequestBody CategoriaEntity categoriaEntity) {
+	public ResponseEntity<CategoryResponseRest> crearCategoria(@RequestBody CategoriaEntity categoriaEntity) {
 		ResponseEntity<CategoryResponseRest> response = categoriaService.crearCategoria(categoriaEntity);
 		return response;
 	}
