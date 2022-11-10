@@ -33,31 +33,30 @@ public class CategoriaController {
 	private CategoriaService categoriaService;
 
 	@GetMapping("/categorias")
-	public ResponseEntity<?> listarCategorias() {
-		ResponseEntity<CategoryResponseRest> responseEntity = categoriaService.buscar();
-		return responseEntity;
+	public ResponseEntity<CategoryResponseRest> listarCategorias() {
+		return categoriaService.buscar();
 	}
 
 	@GetMapping("/categoria/{id}")
-	public ResponseEntity<?> buscarCategoria(@PathVariable Long id) {
+	public ResponseEntity<CategoryResponseRest> buscarCategoria(@PathVariable Long id) {
 		ResponseEntity<CategoryResponseRest> responseEntity = categoriaService.obtenerPorId(id);
 		return responseEntity;
 	}
 
 	@PostMapping("/categoria")
-	public ResponseEntity<?> crearCategoria(@RequestBody CategoriaEntity categoriaEntity) {
+	public ResponseEntity<CategoryResponseRest> crearCategoria(@RequestBody CategoriaEntity categoriaEntity) {
 		ResponseEntity<CategoryResponseRest> response = categoriaService.crearCategoria(categoriaEntity);
 		return response;
 	}
 
 	@PutMapping("/categoria/{id}")
-	public ResponseEntity<?> actualizarCategoria(@RequestBody CategoriaEntity categoriaEntity, @PathVariable Long id) {
-		ResponseEntity responseEntity = categoriaService.actualizar(categoriaEntity, id);
+	public ResponseEntity<CategoryResponseRest> actualizarCategoria(@RequestBody CategoriaEntity categoriaEntity, @PathVariable Long id) {
+		ResponseEntity<CategoryResponseRest> responseEntity = categoriaService.actualizar(categoriaEntity, id);
 		return responseEntity;
 	}
 
 	@DeleteMapping("/categoria/{id}")
-	public ResponseEntity<?> eliminar(@PathVariable Long id) {
+	public ResponseEntity<CategoryResponseRest> eliminar(@PathVariable Long id) {
 		ResponseEntity<CategoryResponseRest> responseEntity = categoriaService.desactivarCategoria(id);
 		return responseEntity;
 	}
