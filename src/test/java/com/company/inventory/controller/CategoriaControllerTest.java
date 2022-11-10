@@ -62,5 +62,86 @@ class CategoriaControllerTest {
 		// valida el resultado
 		assertThat(responseEntity.getStatusCode().value()).isEqualTo(200);
 	}
+	
+	@Test
+	void actualizarTest() {
+		// configuracion de mockito
+		MockHttpServletRequest request= new MockHttpServletRequest();
+		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+		
+		// entidad para realizar prueba
+		CategoriaEntity categoriaEntity= new CategoriaEntity();
+		//categoriaEntity.setId(1L);
+		categoriaEntity.setNombre("refrescos");
+		categoriaEntity.setDescripcion("refrescos descripcion");
+		
+		// cuando intercepte una prueba de la clase category
+		when(categoriaService.actualizar(any(CategoriaEntity.class),any(Long.class))).thenReturn(
+				new ResponseEntity<CategoryResponseRest>(HttpStatus.OK)
+				);
+		
+		// realiza la peticion
+		ResponseEntity<CategoryResponseRest>responseEntity=categoriaController.actualizarCategoria(categoriaEntity,2L);
+		
+		// valida el resultado
+		assertThat(responseEntity.getStatusCode().value()).isEqualTo(200);
+	}
+	
+	@Test
+	void buscarTest() {
+		// configuracion de mockito
+		MockHttpServletRequest request= new MockHttpServletRequest();
+		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+		
+			
+		// cuando intercepte una prueba de la clase category
+		when(categoriaService.obtenerPorId(any(Long.class))).thenReturn(
+				new ResponseEntity<CategoryResponseRest>(HttpStatus.OK)
+				);
+		
+		// realiza la peticion
+		ResponseEntity<CategoryResponseRest>responseEntity=categoriaController.buscarCategoria(2L);
+		
+		// valida el resultado
+		assertThat(responseEntity.getStatusCode().value()).isEqualTo(200);
+	}
+	
+	@Test
+	void obtenerTest() {
+		// configuracion de mockito
+		MockHttpServletRequest request= new MockHttpServletRequest();
+		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+		
+			
+		// cuando intercepte una prueba de la clase category
+		when(categoriaService.buscar()).thenReturn(
+				new ResponseEntity<CategoryResponseRest>(HttpStatus.OK)
+				);
+		
+		// realiza la peticion
+		ResponseEntity<CategoryResponseRest>responseEntity=categoriaController.listarCategorias();
+		
+		// valida el resultado
+		assertThat(responseEntity.getStatusCode().value()).isEqualTo(200);
+	}
+
+	@Test
+	void eliminarTest() {
+		// configuracion de mockito
+		MockHttpServletRequest request= new MockHttpServletRequest();
+		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+		
+			
+		// cuando intercepte una prueba de la clase category
+		when(categoriaService.desactivarCategoria(any(Long.class))).thenReturn(
+				new ResponseEntity<CategoryResponseRest>(HttpStatus.OK)
+				);
+		
+		// realiza la peticion
+		ResponseEntity<CategoryResponseRest>responseEntity=categoriaController.eliminar(2L);
+		
+		// valida el resultado
+		assertThat(responseEntity.getStatusCode().value()).isEqualTo(200);
+	}
 
 }
